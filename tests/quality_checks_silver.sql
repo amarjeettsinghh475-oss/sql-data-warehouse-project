@@ -189,7 +189,7 @@ SELECT
     *
 FROM silver.erp_category
 WHERE category != TRIM(category)
-   OR subcat != TRIM(sub_category)
+   OR sub_category != TRIM(sub_category)
    OR maintenance != TRIM(maintenance);
 
 
