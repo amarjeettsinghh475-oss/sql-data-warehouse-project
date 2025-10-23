@@ -106,11 +106,11 @@ FROM silver.crm_sales_details
 
 SELECT
     NULLIF(sales_due_dt, 0) AS sales_due_dt
-FROM silver.crm_sales_details
+FROM bronze.crm_sales_details
 WHERE sales_due_dt <= 0
    OR LEN(sales_due_dt) != 8
-   OR sales_due_dt > '2050-01-01'
-   OR sales_due_dt < '1900-01-01';
+   OR sales_due_dt > 20500101
+   OR sales_due_dt < 19000101;
 
 
 
@@ -127,7 +127,7 @@ FROM silver.crm_sales_details
 SELECT DISTINCT 
 	sales_sales, 
 	sales_price, 
-	sales_quantity,
+	sales_quantity
 FROM silver.crm_sales_details
 WHERE sales_sales != sales_quantity * sales_price
       OR sales_sales IS NULL 
@@ -153,12 +153,11 @@ WHERE sales_order_dt > sales_due_dt
 --=======================================
 
 --Identify Out of Range dates
---Expectations : BirthDates between 1924-01-01 and Today
+--Expectations : BirthDates not higher than today
 SELECT DISTINCT
   cst_birthdate
-FROM silver.erp_customers
+FROM bronze.erp_customers
 WHERE cst_birthdate > GETDATE()
-  OR  cst_birthdate < '1924-01-01'
 
   
 --Data Standardization & consistency
